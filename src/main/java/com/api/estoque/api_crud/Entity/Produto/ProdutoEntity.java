@@ -3,6 +3,7 @@ package com.api.estoque.api_crud.Entity.Produto;
 import com.api.estoque.api_crud.Entity.Categoria.CategoriaEntity;
 import com.api.estoque.api_crud.Entity.Item.ItemEntity;
 import com.api.estoque.api_crud.Entity.ProdutoItemEntity.ProdutoItemEntity;
+import com.api.estoque.api_crud.Entity.ProdutoVenda.ProdutoVendaEntity;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -31,8 +32,11 @@ public class ProdutoEntity {
     @Column( name = "descricao" )
     private String descricaoProduto;
 
-    @Column( name = "preco_unitario" )
-    private Double precoUnitario;
+    @Column( name = "preco_venda_produto" )
+    private Double precoVendaProduto;
+
+    @Column( name = "preco_custo_produto")
+    private Double precoCustoProduto;
 
     @ManyToMany( cascade = CascadeType.ALL )
     @JoinTable(
@@ -43,6 +47,9 @@ public class ProdutoEntity {
     @JsonManagedReference
     private List<CategoriaEntity> produtoCategoria = new ArrayList<>();
 
+    // Relacionamento com ProdutoVenda (One-to-Many)
+    @OneToMany(mappedBy = "produto", cascade = CascadeType.ALL)
+    private List<ProdutoVendaEntity> vendas;
 
     @OneToMany( mappedBy = "produto", cascade = CascadeType.ALL )
     @JsonManagedReference
@@ -51,10 +58,12 @@ public class ProdutoEntity {
     @Column( name = "quantidade")
     private Integer quantidade_produto;
 
-    public ProdutoEntity(String nomeProduto, String descricaoProduto, Double precoUnitario, Integer quantidadeProduto) {
+    public ProdutoEntity(String nomeProduto, String descricaoProduto, Double precoUnitario, Integer quantidadeProduto, Double precoCusto) {
         this.nomeProduto = nomeProduto;
         this.descricaoProduto = descricaoProduto;
-        this.precoUnitario = precoUnitario;
+        this.precoVendaProduto = precoUnitario;
+        this.precoCustoProduto = precoCusto;
         this.quantidade_produto = quantidadeProduto;
     }
+
 }

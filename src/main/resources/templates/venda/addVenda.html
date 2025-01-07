@@ -87,14 +87,14 @@
   <h1>Adicionar Venda</h1>
 
   <div class="form-container">
-    <form th:action="@{/venda/api}" method="post">
-      <!-- Data da Venda -->
+    <form th:action="@{/vendaEntity/api}" method="post">
+      <!-- Data da VendaEntity -->
       <div class="form-group">
         <label for="data_venda">Data da Venda:</label>
         <input type="date" id="data_venda"  required>
       </div>
 
-      <!-- Valor da Venda -->
+      <!-- Valor da VendaEntity -->
       <div class="form-group">
         <label for="valor_venda">Valor da Venda:</label>
         <input type="number" id="valor_venda"  step="0.01" required>
@@ -106,7 +106,7 @@
         <input type="text" id="descricao"  placeholder="Descrição do produto vendido" required>
       </div>
 
-      <!-- Checkbox para Venda Revista e Estoque -->
+      <!-- Checkbox para VendaEntity Revista e Estoque -->
       <div class="form-group checkbox-group">
         <div>
           <input type="checkbox" id="venda_revista" >
@@ -123,7 +123,7 @@
     </form>
 
     <!-- Link para voltar à lista -->
-    <a th:href="@{/venda}" class="btn-back">Voltar para lista de vendas</a>
+    <a th:href="@{/vendaEntity}" class="btn-back">Voltar para lista de vendas</a>
   </div>
 </div>
 </body>

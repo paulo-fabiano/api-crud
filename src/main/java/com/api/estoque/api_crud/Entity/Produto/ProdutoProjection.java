@@ -4,7 +4,8 @@ public interface ProdutoProjection {
     Long getProdutoId();
     String getNomeProduto();
     String getDescricaoProduto();
-    Double getPrecoProduto();
+    Double getPrecoVendaProduto();
+    Double getPrecoCustoProduto();
     Long getCategoriaId();
     String getNomeCategoria();
     Long getItemId();

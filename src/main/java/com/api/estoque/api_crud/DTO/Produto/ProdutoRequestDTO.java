@@ -16,19 +16,21 @@ import java.util.*;
 public class ProdutoRequestDTO {
 
     @Lob
-    @Column( name = "imagem_produto")
+    @Column( name = "image")
     private byte[] imagemProduto;
-    @JsonProperty("nomeProduto")
+    @JsonProperty("name")
     private String nomeProduto;
-    @JsonProperty("descricaoProduto")
+    @JsonProperty("description")
     private String descricaoProduto;
-    @JsonProperty("precoProduto")
-    private Double precoProduto;
+    @JsonProperty("price")
+    private Double precoVendaProduto;
+    @JsonProperty("costPrice")
+    private Double precoCustoProduto;
     @JsonProperty("stock")
     private int quantidadeProduto;
-    @JsonProperty("produtoCategoria")
+    @JsonProperty("categories")
     private List<Long> produtoCategoria = new ArrayList<>();
-    @JsonProperty("produtoItens")
+    @JsonProperty("itens")
     private Map<Long, Integer> produtoItens = new HashMap<>();
 
 }

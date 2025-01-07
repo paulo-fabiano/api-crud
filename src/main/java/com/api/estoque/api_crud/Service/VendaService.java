@@ -1,6 +1,6 @@
 package com.api.estoque.api_crud.Service;
 
-import com.api.estoque.api_crud.Entity.Venda.Venda;
+import com.api.estoque.api_crud.Entity.Venda.VendaEntity;
 import com.api.estoque.api_crud.Repository.VendaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,14 +26,14 @@ public class VendaService {
         return total;
     }
 
-    public Venda registrarVenda(Venda venda) {
-        return vendaRepository.save(venda);
+    public VendaEntity registrarVenda(VendaEntity vendaEntity) {
+        return vendaRepository.save(vendaEntity);
     }
 
     /*
         Essa função vai buscar todas as vendas realizadas.
     */
-    public List<Venda> buscarVendas() {
+    public List<VendaEntity> buscarVendas() {
         return vendaRepository.findAll();
     }
 

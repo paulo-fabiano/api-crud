@@ -1,6 +1,6 @@
 package com.api.estoque.api_crud.Repository;
 
-import com.api.estoque.api_crud.Entity.Venda.Venda;
+import com.api.estoque.api_crud.Entity.Venda.VendaEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
-public interface VendaRepository extends JpaRepository<Venda, Long> {
+public interface VendaRepository extends JpaRepository<VendaEntity, Long> {
 
     /*
         Essa consulta irá buscar o valor das vendas realizadas no dia.

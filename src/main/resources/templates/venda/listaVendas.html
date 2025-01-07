@@ -76,7 +76,7 @@
 
   <div class="table-container">
     <div class="btn-container">
-      <a th:href="@{/venda/adicionar}" class="btn-add">Registrar Nova Venda</a>
+      <a th:href="@{/vendaEntity/adicionar}" class="btn-add">Registrar Nova Venda</a>
     </div>
 
     <table>
@@ -91,20 +91,20 @@
       </tr>
       </thead>
       <tbody>
-      <tr th:each="venda : ${vendas}">
-        <td th:text="${venda.id}"></td>
-        <td th:text="${venda.data_venda}"></td>
-        <td th:text="${venda.valor_venda}"></td>
-        <td th:text="${venda.venda_revista ? 'Sim' : 'Não'}"></td>
-        <td th:text="${venda.venda_estoque ? 'Sim' : 'Não'}"></td>
+      <tr th:each="vendaEntity : ${vendas}">
+        <td th:text="${vendaEntity.id}"></td>
+        <td th:text="${vendaEntity.data_venda}"></td>
+        <td th:text="${vendaEntity.valor_venda}"></td>
+        <td th:text="${vendaEntity.venda_revista ? 'Sim' : 'Não'}"></td>
+        <td th:text="${vendaEntity.venda_estoque ? 'Sim' : 'Não'}"></td>
         <td>
           <ul>
-            <li th:each="itemEntity : ${venda.items}" th:text="${itemEntity.nome}"></li>
+            <li th:each="itemEntity : ${vendaEntity.items}" th:text="${itemEntity.nome}"></li>
           </ul>
         </td>
       </tr>
       <tr th:if="${#lists.isEmpty(vendas)}">
-        <td colspan="6" class="empty-list">Nenhuma venda encontrada.</td>
+        <td colspan="6" class="empty-list">Nenhuma vendaEntity encontrada.</td>
       </tr>
       </tbody>
     </table>

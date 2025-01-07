@@ -1,12 +1,10 @@
 package com.api.estoque.api_crud.Controller;
 
-import com.api.estoque.api_crud.Entity.Venda.Venda;
+import com.api.estoque.api_crud.Entity.Venda.VendaEntity;
 import com.api.estoque.api_crud.Service.VendaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/venda")
@@ -18,13 +16,13 @@ public class VendaController {
 //    @GetMapping
 //    public ModelAndView viewVenda() {
 //        ModelAndView mv = new ModelAndView("/venda/listaVendas");
-//        List<Venda> vendas = vendaService.listarVendas();
+//        List<VendaEntity> vendas = vendaService.listarVendas();
 //        return mv;
 //    }
 
     @PostMapping("/api")
-    public void registrarVenda(@RequestBody Venda venda) {
-        vendaService.registrarVenda(venda);
+    public void registrarVenda(@RequestBody VendaEntity vendaEntity) {
+        vendaService.registrarVenda(vendaEntity);
     }
 
     @GetMapping("/adicionar")

@@ -2,7 +2,6 @@ package com.api.estoque.api_crud.Service.Produto;
 
 import com.api.estoque.api_crud.DTO.Categoria.CategoriaResponseDTO;
 import com.api.estoque.api_crud.DTO.Item.ItemResponseDTO;
-import com.api.estoque.api_crud.DTO.Item.ItemResponseProdutoDTO;
 import com.api.estoque.api_crud.DTO.Produto.ProdutoRequestDTO;
 import com.api.estoque.api_crud.DTO.Produto.ProdutoResponseDTO;
 import com.api.estoque.api_crud.Entity.Categoria.CategoriaEntity;
@@ -11,9 +10,10 @@ import com.api.estoque.api_crud.Entity.Produto.ProdutoEntity;
 import com.api.estoque.api_crud.Entity.Produto.ProdutoProjection;
 import com.api.estoque.api_crud.Entity.ProdutoItemEntity.ProdutoItemEntity;
 import com.api.estoque.api_crud.Repository.Categoria.CategoriaRepository;
-import com.api.estoque.api_crud.Repository.ItemRepository;
+import com.api.estoque.api_crud.Repository.Item.ItemRepository;
 import com.api.estoque.api_crud.Repository.Produto.ProdutoRepository;
 import com.api.estoque.api_crud.Repository.ProdutoItem.ProdutoItemRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -37,13 +37,15 @@ public class ProdutoService {
     // Função que adicionar um produto
     public ProdutoEntity adicionarProduto(ProdutoRequestDTO produtoDTO) {
 
-        // Criar um objeto com os atributos nome, descrição, preço e quantidade
+        // Criar um objeto com os atributos nome, descrição, preço de venda, preço de custo e quantidade
         ProdutoEntity produto = new ProdutoEntity(
                 produtoDTO.getNomeProduto(),
                 produtoDTO.getDescricaoProduto(),
-                produtoDTO.getPrecoProduto(),
-                produtoDTO.getQuantidadeProduto()
+                produtoDTO.getPrecoVendaProduto(),
+                produtoDTO.getQuantidadeProduto(),
+                produtoDTO.getPrecoCustoProduto()
         );
+
 
         // Buscar as categorias e associar ao produto
         List<Long> listaLongCategorias = produtoDTO.getProdutoCategoria();
@@ -59,6 +61,9 @@ public class ProdutoService {
 
         // Salvar o produto para obter o Id
         produto = produtoRepository.save(produto);
+
+
+
 
         for(Map.Entry<Long, Integer> i : produtoDTO.getProdutoItens().entrySet()) {
             ProdutoItemEntity produtoItemEntity = new ProdutoItemEntity();
@@ -91,7 +96,8 @@ public class ProdutoService {
             Long produtoId = linha.getProdutoId();
             String nomeProduto = linha.getNomeProduto();
             String descricaoProduto = linha.getDescricaoProduto();
-            Double precoProduto = linha.getPrecoProduto();
+            Double precoVendaProduto = linha.getPrecoVendaProduto();
+            Double precoCustoProduto = linha.getPrecoCustoProduto();
             Integer quantidadeProduto = linha.getQuantidadeProduto();
 
             // Verifica se o produto já existe no mapa
@@ -100,7 +106,8 @@ public class ProdutoService {
                 p.setId(produtoId);
                 p.setNome(nomeProduto);
                 p.setDescricao(descricaoProduto);
-                p.setPreco(precoProduto);
+                p.setPrecoVendaProduto(precoVendaProduto);
+                p.setPrecoCustoProduto(precoCustoProduto);
                 p.setQuantidade(quantidadeProduto);
                 p.setCategorias(new ArrayList<>());
                 p.setItens(new ArrayList<>());
@@ -122,13 +129,48 @@ public class ProdutoService {
     }
 
     // Função para remover um produto
+    @Transactional
     public void deletarProduto(Long id) {
-        Optional<ProdutoEntity> produtoOpt = produtoRepository.findById(id);
-        if (!produtoOpt.isPresent()) {
-            throw new RuntimeException("Cliente com Id não encontrado");
-        }
-        produtoRepository.deleteById(id);
+        ProdutoEntity produto = produtoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Produto com ID " + id + " não encontrado"));
+
+        // Limpa as associações para evitar problemas de chave estrangeira
+        produto.getProdutoCategoria().clear();
+        produto.getProdutoItens().clear();
+
+        produtoRepository.save(produto); // Atualiza as associações
+
+        produtoRepository.delete(produto); // Agora você pode deletar o produto
     }
+
+
+    @Transactional
+    public List<ProdutoResponseDTO> buscarProdutosPorCategoria(Long id) {
+
+        List<ProdutoProjection> resultados = produtoRepository.buscarProdutosPorCategoria(id);
+        Map<Long, ProdutoResponseDTO> produtoMap = new HashMap<>();
+
+        for (ProdutoProjection linha : resultados) {
+            Long produtoId = linha.getProdutoId();
+
+            if(!produtoMap.containsKey(produtoId)) {
+
+                ProdutoResponseDTO dto = new ProdutoResponseDTO();
+                dto.setId(produtoId);
+                dto.setNome(linha.getNomeProduto());
+                dto.setDescricao(linha.getDescricaoProduto());
+                dto.setPrecoVendaProduto(linha.getPrecoVendaProduto());
+                dto.setPrecoCustoProduto(linha.getPrecoCustoProduto());
+                dto.setQuantidade(linha.getQuantidadeProduto());
+
+                produtoMap.put(produtoId, dto);
+            }
+
+        }
+        System.out.println(produtoMap.values());
+        return new ArrayList<>(produtoMap.values());
+
+    };
 
 
 }

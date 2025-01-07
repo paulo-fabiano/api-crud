@@ -3,12 +3,17 @@ package com.api.estoque.api_crud.Service.Item;
 import com.api.estoque.api_crud.DTO.Item.ItemRequestDTO;
 import com.api.estoque.api_crud.DTO.Item.ItemResponseDTO;
 import com.api.estoque.api_crud.DTO.Item.ItemResponseProdutoDTO;
+import com.api.estoque.api_crud.DTO.Item.ItemResponseUltimosItensDTO;
 import com.api.estoque.api_crud.Entity.Item.ItemEntity;
 import com.api.estoque.api_crud.Exceptions.IdNaoEncontrado;
-import com.api.estoque.api_crud.Repository.ItemRepository;
+import com.api.estoque.api_crud.Repository.Item.ItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import org.springframework.data.domain.Pageable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -36,6 +41,20 @@ public class ItemService {
             lItemDTO.add(itemResponseDTO);
         }
         return lItemDTO;
+    }
+
+
+    // Função que retorna os últimos cinco itens adicionados
+    public List<ItemResponseUltimosItensDTO> buscarUltimosItens() {
+        Pageable pageable = PageRequest.of(0, 5, Sort.by("id").descending());
+        Page<ItemEntity> pagina = itemRepository.findAll(pageable);
+
+        List<ItemResponseUltimosItensDTO> ultimos = new ArrayList<>();
+        for (ItemEntity i : pagina.getContent()) {
+            ItemResponseUltimosItensDTO u = new ItemResponseUltimosItensDTO(i.getId(), i.getNome(), i.getQuantidade());
+            ultimos.add(u);
+        }
+        return ultimos;
     }
 
     //Função para retornar os itens que estão esgotados

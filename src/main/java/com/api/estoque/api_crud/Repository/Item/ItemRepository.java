@@ -1,11 +1,11 @@
-package com.api.estoque.api_crud.Repository;
+package com.api.estoque.api_crud.Repository.Item;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import com.api.estoque.api_crud.Entity.Item.ItemEntity;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.awt.print.Pageable;
 import java.util.List;
 
 @Repository

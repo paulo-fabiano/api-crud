@@ -5,6 +5,7 @@ import com.api.estoque.api_crud.DTO.Categoria.CategoriaResponseDTO;
 import com.api.estoque.api_crud.DTO.Item.ItemRequestDTO;
 import com.api.estoque.api_crud.DTO.Item.ItemResponseDTO;
 import com.api.estoque.api_crud.DTO.Item.ItemResponseProdutoDTO;
+import com.api.estoque.api_crud.DTO.Item.ItemResponseUltimosItensDTO;
 import com.api.estoque.api_crud.Entity.Categoria.CategoriaEntity;
 import com.api.estoque.api_crud.Entity.Item.ItemEntity;
 import com.api.estoque.api_crud.Exceptions.IdNaoEncontrado;
@@ -61,6 +62,13 @@ public class EstoqueController {
     @GetMapping( "/item" )
     public ResponseEntity<List<ItemResponseDTO>> listarItens() {
         return ResponseEntity.ok(itemService.buscarItens());
+    }
+
+    // Endpoint para listar os últimos cinco itens adicionados
+    // Futuramente irei receber um parâmetro de quantos itens irei querer enviar na requisição, no momento será somente 5.
+    @GetMapping("/item/ultimos/5")
+    public ResponseEntity<List<ItemResponseUltimosItensDTO>> listarUltimosItens() {
+        return  ResponseEntity.status(HttpStatus.ACCEPTED).body(itemService.buscarUltimosItens());
     }
 
     // Endpoint para listar os itens zerados

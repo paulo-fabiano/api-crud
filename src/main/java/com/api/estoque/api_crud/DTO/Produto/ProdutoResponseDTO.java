@@ -18,9 +18,24 @@ public class ProdutoResponseDTO {
     private Long id;
     private String nome;
     private String descricao;
-    private Double preco;
+    private Double precoVendaProduto;
+    private Double precoCustoProduto;
     private Integer quantidade;
     private List<CategoriaResponseDTO> categorias;
     private List<ItemResponseDTO> itens;
+
+    public ProdutoResponseDTO(
+            Long id,
+            String nome,
+            String descricao,
+            Double precoVendaProduto,
+            Integer quantidade
+    ) {
+        this.id = id;
+        this.nome = nome;
+        this.descricao = descricao;
+        this.precoVendaProduto = precoVendaProduto;
+        this.quantidade = quantidade;
+    }
 
 }

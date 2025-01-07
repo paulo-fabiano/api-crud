@@ -2,7 +2,6 @@ package com.api.estoque.api_crud.Controller.DashboardProduto;
 
 import com.api.estoque.api_crud.DTO.Produto.ProdutoRequestDTO;
 import com.api.estoque.api_crud.DTO.Produto.ProdutoResponseDTO;
-import com.api.estoque.api_crud.Entity.Produto.ProdutoEntity;
 import com.api.estoque.api_crud.Service.Produto.ProdutoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -43,5 +42,12 @@ public class ProdutoController {
             throw new RuntimeException("Não foi possível deletar o Produto");
         }
     }
+
+    // Endpoint que vai listar os produtos por categoria após o usuário selecionar a categoria
+    @GetMapping("/categorias/listar/{id}")
+    public ResponseEntity<List<ProdutoResponseDTO>> buscarProdutosPorCategoria(@PathVariable Long id) {
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(produtoService.buscarProdutosPorCategoria(id));
+    }
+
 
 }

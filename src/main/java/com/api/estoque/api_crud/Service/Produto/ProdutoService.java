@@ -1,14 +1,14 @@
 package com.api.estoque.api_crud.Service.Produto;
 
-import com.api.estoque.api_crud.DTO.Categoria.CategoriaResponseDTO;
-import com.api.estoque.api_crud.DTO.Item.ItemResponseDTO;
-import com.api.estoque.api_crud.DTO.Produto.ProdutoRequestDTO;
-import com.api.estoque.api_crud.DTO.Produto.ProdutoResponseDTO;
-import com.api.estoque.api_crud.Entity.Categoria.CategoriaEntity;
-import com.api.estoque.api_crud.Entity.Item.ItemEntity;
-import com.api.estoque.api_crud.Entity.Produto.ProdutoEntity;
-import com.api.estoque.api_crud.Entity.Produto.ProdutoProjection;
-import com.api.estoque.api_crud.Entity.ProdutoItemEntity.ProdutoItemEntity;
+import com.api.estoque.api_crud.dto.Categoria.CategoriaResponseDTO;
+import com.api.estoque.api_crud.dto.item.ItemResponseDTO;
+import com.api.estoque.api_crud.dto.produto.ProdutoRequestDTO;
+import com.api.estoque.api_crud.dto.produto.ProdutoResponseEstoqueDTO;
+import com.api.estoque.api_crud.entity.Categoria.CategoriaEntity;
+import com.api.estoque.api_crud.entity.Item.ItemEntity;
+import com.api.estoque.api_crud.entity.produto.ProdutoEntity;
+import com.api.estoque.api_crud.entity.produto.ProdutoProjection;
+import com.api.estoque.api_crud.entity.ProdutoItemEntity.ProdutoItemEntity;
 import com.api.estoque.api_crud.Repository.Categoria.CategoriaRepository;
 import com.api.estoque.api_crud.Repository.Item.ItemRepository;
 import com.api.estoque.api_crud.Repository.Produto.ProdutoRepository;
@@ -37,15 +37,19 @@ public class ProdutoService {
     // Função que adicionar um produto
     public ProdutoEntity adicionarProduto(ProdutoRequestDTO produtoDTO) {
 
+        byte[] imagemBytes = null;
+        if (produtoDTO.getImagem() != null && produtoDTO.getImagem().isEmpty()) {
+            imagemBytes = Base64.getDecoder().decode(produtoDTO.getImagem());
+        }
         // Criar um objeto com os atributos nome, descrição, preço de venda, preço de custo e quantidade
-        ProdutoEntity produto = new ProdutoEntity(
-                produtoDTO.getNomeProduto(),
-                produtoDTO.getDescricaoProduto(),
-                produtoDTO.getPrecoVendaProduto(),
-                produtoDTO.getQuantidadeProduto(),
-                produtoDTO.getPrecoCustoProduto()
-        );
+        ProdutoEntity produto = new ProdutoEntity();
 
+        produto.setImagem(imagemBytes);
+        produto.setNomeProduto(produtoDTO.getNomeProduto());
+        produto.setDescricaoProduto(produtoDTO.getDescricaoProduto());
+        produto.setPrecoVendaProduto(produtoDTO.getPrecoVendaProduto());
+        produto.setPrecoCustoProduto(produtoDTO.getPrecoCustoProduto());
+        produto.setQuantidade(produtoDTO.getQuantidadeProduto());
 
         // Buscar as categorias e associar ao produto
         List<Long> listaLongCategorias = produtoDTO.getProdutoCategoria();
@@ -86,10 +90,10 @@ public class ProdutoService {
     }
 
     // Função que busca os produtos
-    public List<ProdutoResponseDTO> buscarProdutos() {
+    public List<ProdutoResponseEstoqueDTO> buscarProdutos() {
         List<ProdutoProjection> resultados = produtoRepository.buscarListaProdutos();
 
-        Map<Long, ProdutoResponseDTO> produtoMap = new HashMap<>();
+        Map<Long, ProdutoResponseEstoqueDTO> produtoMap = new HashMap<>();
 
         for (ProdutoProjection linha : resultados) {
             // Extrai dados da linha
@@ -101,8 +105,8 @@ public class ProdutoService {
             Integer quantidadeProduto = linha.getQuantidadeProduto();
 
             // Verifica se o produto já existe no mapa
-            ProdutoResponseDTO produto = produtoMap.computeIfAbsent(produtoId, id -> {
-                ProdutoResponseDTO p = new ProdutoResponseDTO();
+            ProdutoResponseEstoqueDTO produto = produtoMap.computeIfAbsent(produtoId, id -> {
+                ProdutoResponseEstoqueDTO p = new ProdutoResponseEstoqueDTO();
                 p.setId(produtoId);
                 p.setNome(nomeProduto);
                 p.setDescricao(descricaoProduto);
@@ -145,17 +149,17 @@ public class ProdutoService {
 
 
     @Transactional
-    public List<ProdutoResponseDTO> buscarProdutosPorCategoria(Long id) {
+    public List<ProdutoResponseEstoqueDTO> buscarProdutosPorCategoria(Long id) {
 
         List<ProdutoProjection> resultados = produtoRepository.buscarProdutosPorCategoria(id);
-        Map<Long, ProdutoResponseDTO> produtoMap = new HashMap<>();
+        Map<Long, ProdutoResponseEstoqueDTO> produtoMap = new HashMap<>();
 
         for (ProdutoProjection linha : resultados) {
             Long produtoId = linha.getProdutoId();
 
             if(!produtoMap.containsKey(produtoId)) {
 
-                ProdutoResponseDTO dto = new ProdutoResponseDTO();
+                ProdutoResponseEstoqueDTO dto = new ProdutoResponseEstoqueDTO();
                 dto.setId(produtoId);
                 dto.setNome(linha.getNomeProduto());
                 dto.setDescricao(linha.getDescricaoProduto());

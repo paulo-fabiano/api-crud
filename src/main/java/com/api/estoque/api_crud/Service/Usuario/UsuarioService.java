@@ -1,48 +1,71 @@
 package com.api.estoque.api_crud.Service.Usuario;
 
-import com.api.estoque.api_crud.DTO.Usuario.UsuarioRequestDTO;
-import com.api.estoque.api_crud.Entity.Usuario.UsuarioEntity;
-import com.api.estoque.api_crud.Repository.Usuario.UsuarioRepository;
+import com.api.estoque.api_crud.dto.usuario.CreateUserDto;
+import com.api.estoque.api_crud.dto.usuario.LoginUserDto;
+import com.api.estoque.api_crud.dto.usuario.RecoveryJwtTokenDto;
+import com.api.estoque.api_crud.entity.role.Role;
+import com.api.estoque.api_crud.entity.usuario.UsuarioEntity;
+import com.api.estoque.api_crud.Repository.usuario.UsuarioRepository;
+import com.api.estoque.api_crud.security.config.SecurityConfiguration;
+import com.api.estoque.api_crud.security.jwt.JwtTokenService;
+import com.api.estoque.api_crud.security.usuarioDetails.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
-import java.sql.SQLException;
 import java.util.List;
 
 @Service
 public class UsuarioService {
 
     @Autowired
+    private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private JwtTokenService jwtTokenService;
+
+    @Autowired
     private UsuarioRepository usuarioRepository;
 
-    // Função que tranforma UsuarioRequestDTO em Usuário
-    public UsuarioEntity tranformaEmUsuario(UsuarioRequestDTO dto) {
-        UsuarioEntity usuario = new UsuarioEntity(
-                dto.getNomeUsuario(),
-                dto.getSobrenomeUsuario(),
-                dto.getEmail(),
-                dto.getSenha(),
-                dto.getTelefone()
-        );
-        return usuario;
+    @Autowired
+    private SecurityConfiguration securityConfiguration;
+
+    // Método responsável por autenticar um usuário e retornar um token JWT
+    public RecoveryJwtTokenDto authenticateUser(LoginUserDto loginUserDto) {
+        // Cria um objeto de autenticação com o email e a senha do usuário
+        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
+                new UsernamePasswordAuthenticationToken(loginUserDto.email(), loginUserDto.password());
+
+        // Autentica o usuário com as credenciais fornecidas
+        Authentication authentication = authenticationManager.authenticate(usernamePasswordAuthenticationToken);
+
+        // Obtém o objeto UserDetails do usuário autenticado
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+
+        // Gera um token JWT para o usuário autenticado
+        return new RecoveryJwtTokenDto(jwtTokenService.generateToken(userDetails));
     }
 
-    // Função que salva um usuário
-    public UsuarioEntity salvarUsuario(UsuarioRequestDTO dto) throws SQLException {
+    // Método responsável por criar um usuário
+    public void createUser(CreateUserDto createUserDto) {
+
         try {
-            return usuarioRepository.save(tranformaEmUsuario(dto));
+            // Cria um novo usuário com os dados fornecidos
+            UsuarioEntity newUser = UsuarioEntity.builder()
+                    .email(createUserDto.email())
+                    // Codifica a senha do usuário com o algoritmo bcrypt
+                    .senha(securityConfiguration.passwordEncoder().encode(createUserDto.password()))
+                    // Atribui ao usuário uma permissão específica
+                    .roles(List.of(Role.builder().name(createUserDto.role()).build()))
+                    .build();
+
+            // Salva o novo usuário no banco de dados
+            usuarioRepository.save(newUser);
         }
         catch (Exception e) {
-            throw new SQLException("Erro ao salvar "+e.getMessage());
-        }
-    }
-
-    // Função para buscar todos os usuários
-    public List<UsuarioEntity> buscarUsuarios() throws SQLException {
-        try {
-            return usuarioRepository.findAll();
-        } catch (Exception e) {
-            throw new SQLException(e);
+            throw new RuntimeException("Erro ao criar usuário");
         }
     }
 

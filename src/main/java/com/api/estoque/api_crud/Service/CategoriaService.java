@@ -1,7 +1,7 @@
 package com.api.estoque.api_crud.Service;
 
-import com.api.estoque.api_crud.DTO.Categoria.CategoriaResponseDTO;
-import com.api.estoque.api_crud.Entity.Categoria.CategoriaEntity;
+import com.api.estoque.api_crud.dto.Categoria.CategoriaResponseDTO;
+import com.api.estoque.api_crud.entity.Categoria.CategoriaEntity;
 import com.api.estoque.api_crud.Repository.Categoria.CategoriaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

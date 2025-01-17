@@ -1,6 +1,6 @@
 package com.api.estoque.api_crud.Service;
 
-import com.api.estoque.api_crud.Entity.Cliente;
+import com.api.estoque.api_crud.entity.Cliente;
 import com.api.estoque.api_crud.Exceptions.ClienteNaoEncontrado;
 import com.api.estoque.api_crud.Repository.ClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;

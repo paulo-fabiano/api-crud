@@ -1,10 +1,10 @@
 package com.api.estoque.api_crud.Service.Item;
 
-import com.api.estoque.api_crud.DTO.Item.ItemRequestDTO;
-import com.api.estoque.api_crud.DTO.Item.ItemResponseDTO;
-import com.api.estoque.api_crud.DTO.Item.ItemResponseProdutoDTO;
-import com.api.estoque.api_crud.DTO.Item.ItemResponseUltimosItensDTO;
-import com.api.estoque.api_crud.Entity.Item.ItemEntity;
+import com.api.estoque.api_crud.dto.item.ItemRequestDTO;
+import com.api.estoque.api_crud.dto.item.ItemResponseDTO;
+import com.api.estoque.api_crud.dto.item.ItemResponseProdutoDTO;
+import com.api.estoque.api_crud.dto.item.ItemResponseUltimosItensDTO;
+import com.api.estoque.api_crud.entity.Item.ItemEntity;
 import com.api.estoque.api_crud.Exceptions.IdNaoEncontrado;
 import com.api.estoque.api_crud.Repository.Item.ItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;

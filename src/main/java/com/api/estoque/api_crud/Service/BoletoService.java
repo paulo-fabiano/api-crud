@@ -1,8 +1,7 @@
 package com.api.estoque.api_crud.Service;
 
-import com.api.estoque.api_crud.Entity.Boleto;
+import com.api.estoque.api_crud.entity.Boleto;
 import com.api.estoque.api_crud.Exceptions.BoletoNaoAdicionado;
-import com.api.estoque.api_crud.Exceptions.BoletoNaoEncontrado;
 import com.api.estoque.api_crud.Repository.BoletoRepostirory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;

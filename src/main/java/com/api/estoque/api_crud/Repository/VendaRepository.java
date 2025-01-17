@@ -1,6 +1,6 @@
 package com.api.estoque.api_crud.Repository;
 
-import com.api.estoque.api_crud.Entity.Venda.VendaEntity;
+import com.api.estoque.api_crud.entity.Venda.VendaEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

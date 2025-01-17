@@ -1,7 +1,7 @@
 package com.api.estoque.api_crud.Repository.Produto;
 
-import com.api.estoque.api_crud.Entity.Produto.ProdutoEntity;
-import com.api.estoque.api_crud.Entity.Produto.ProdutoProjection;
+import com.api.estoque.api_crud.entity.produto.ProdutoEntity;
+import com.api.estoque.api_crud.entity.produto.ProdutoProjection;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

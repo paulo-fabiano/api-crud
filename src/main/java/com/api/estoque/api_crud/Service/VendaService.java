@@ -1,6 +1,6 @@
 package com.api.estoque.api_crud.Service;
 
-import com.api.estoque.api_crud.Entity.Venda.VendaEntity;
+import com.api.estoque.api_crud.entity.Venda.VendaEntity;
 import com.api.estoque.api_crud.Repository.VendaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

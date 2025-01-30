@@ -1,9 +1,9 @@
 package com.api.estoque.api_crud.controller.usuario;
 
-import com.api.estoque.api_crud.Service.Usuario.UsuarioService;
-import com.api.estoque.api_crud.dto.usuario.CreateUserDto;
-import com.api.estoque.api_crud.dto.usuario.LoginUserDto;
-import com.api.estoque.api_crud.dto.usuario.RecoveryJwtTokenDto;
+import com.api.estoque.api_crud.Service.UsuarioService;
+import com.api.estoque.api_crud.dto.authentication.CreateUserDto;
+import com.api.estoque.api_crud.dto.authentication.LoginUserDto;
+import com.api.estoque.api_crud.dto.authentication.RecoveryJwtTokenDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,17 +14,17 @@ import org.springframework.web.bind.annotation.*;
 public class UsuarioController {
 
     @Autowired
-    private UsuarioService usuarioService;
+    private UsuarioService userService;
 
     @PostMapping("/login")
     public ResponseEntity<RecoveryJwtTokenDto> authenticateUser(@RequestBody LoginUserDto loginUserDto) {
-        RecoveryJwtTokenDto token = usuarioService.authenticateUser(loginUserDto);
+        RecoveryJwtTokenDto token = userService.authenticateUser(loginUserDto);
         return new ResponseEntity<>(token, HttpStatus.OK);
     }
 
     @PostMapping
     public ResponseEntity<Void> createUser(@RequestBody CreateUserDto createUserDto) {
-        usuarioService.createUser(createUserDto);
+        userService.createUser(createUserDto);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
@@ -41,5 +41,10 @@ public class UsuarioController {
     @GetMapping("/test/administrator")
     public ResponseEntity<String> getAdminAuthenticationTest() {
         return new ResponseEntity<>("Administrador autenticado com sucesso", HttpStatus.OK);
+    }
+
+    @GetMapping("teste")
+    public ResponseEntity<?> teste() {
+        return ResponseEntity.ok("Deu certo!!");
     }
 }

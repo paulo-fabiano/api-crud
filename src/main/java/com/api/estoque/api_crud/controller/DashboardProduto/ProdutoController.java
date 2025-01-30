@@ -1,6 +1,6 @@
 package com.api.estoque.api_crud.controller.DashboardProduto;
 
-import com.api.estoque.api_crud.dto.Categoria.CategoriaResponseDTO;
+import com.api.estoque.api_crud.dto.categoria.CategoriaResponseDTO;
 import com.api.estoque.api_crud.dto.produto.ProdutoRequestDTO;
 import com.api.estoque.api_crud.dto.produto.ProdutoResponseEstoqueDTO;
 import com.api.estoque.api_crud.Service.CategoriaService;
@@ -21,6 +21,11 @@ public class ProdutoController {
     private ProdutoService produtoService;
     @Autowired
     private CategoriaService categoriaService;
+
+    @GetMapping
+    public String get() {
+        return "Deu certo";
+    }
 
     // Endpoint para adicionar Produtos
     @PostMapping("/adicionar")

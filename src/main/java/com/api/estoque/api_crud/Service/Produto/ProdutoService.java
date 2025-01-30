@@ -1,18 +1,18 @@
 package com.api.estoque.api_crud.Service.Produto;
 
-import com.api.estoque.api_crud.dto.Categoria.CategoriaResponseDTO;
+import com.api.estoque.api_crud.dto.categoria.CategoriaResponseDTO;
 import com.api.estoque.api_crud.dto.item.ItemResponseDTO;
 import com.api.estoque.api_crud.dto.produto.ProdutoRequestDTO;
 import com.api.estoque.api_crud.dto.produto.ProdutoResponseEstoqueDTO;
 import com.api.estoque.api_crud.entity.Categoria.CategoriaEntity;
-import com.api.estoque.api_crud.entity.Item.ItemEntity;
+import com.api.estoque.api_crud.entity.item.ItemEntity;
 import com.api.estoque.api_crud.entity.produto.ProdutoEntity;
 import com.api.estoque.api_crud.entity.produto.ProdutoProjection;
 import com.api.estoque.api_crud.entity.ProdutoItemEntity.ProdutoItemEntity;
-import com.api.estoque.api_crud.Repository.Categoria.CategoriaRepository;
-import com.api.estoque.api_crud.Repository.Item.ItemRepository;
-import com.api.estoque.api_crud.Repository.Produto.ProdutoRepository;
-import com.api.estoque.api_crud.Repository.ProdutoItem.ProdutoItemRepository;
+import com.api.estoque.api_crud.repository.Categoria.CategoriaRepository;
+import com.api.estoque.api_crud.repository.Item.ItemRepository;
+import com.api.estoque.api_crud.repository.Produto.ProdutoRepository;
+import com.api.estoque.api_crud.repository.ProdutoItem.ProdutoItemRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

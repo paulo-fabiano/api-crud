@@ -1,7 +1,7 @@
 package com.api.estoque.api_crud.controller.DashboardEstoque;
 
-import com.api.estoque.api_crud.dto.Categoria.CategoriaRequestDTO;
-import com.api.estoque.api_crud.dto.Categoria.CategoriaResponseDTO;
+import com.api.estoque.api_crud.dto.categoria.CategoriaRequestDTO;
+import com.api.estoque.api_crud.dto.categoria.CategoriaResponseDTO;
 import com.api.estoque.api_crud.dto.item.ItemRequestDTO;
 import com.api.estoque.api_crud.dto.item.ItemResponseDTO;
 import com.api.estoque.api_crud.dto.item.ItemResponseProdutoDTO;

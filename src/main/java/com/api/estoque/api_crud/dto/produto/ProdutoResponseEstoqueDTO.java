@@ -1,6 +1,6 @@
 package com.api.estoque.api_crud.dto.produto;
 
-import com.api.estoque.api_crud.dto.Categoria.CategoriaResponseDTO;
+import com.api.estoque.api_crud.dto.categoria.CategoriaResponseDTO;
 import com.api.estoque.api_crud.dto.item.ItemResponseDTO;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;

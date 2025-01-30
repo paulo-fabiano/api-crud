@@ -4,6 +4,7 @@ import com.api.estoque.api_crud.security.authentication.UserAuthenticationFilter
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -21,12 +22,10 @@ public class SecurityConfiguration {
     @Autowired
     private UserAuthenticationFilter userAuthenticationFilter;
 
-    public static final String[] ENDPOINTS_WITH_AUTHENTICATION_NOT_REQUIRED = {
-            "/api/produtos",
-            "/login/",
-            "/users/login",
-            "/error",
-            "/users"
+    public static final String [] ENDPOINTS_WITH_AUTHENTICATION_NOT_REQUIRED = {
+            "/users/login", // Url que usaremos para fazer login
+            "/users", // Url que usaremos para criar um usuário
+            "/teste"
     };
 
     // Endpoints que requerem autenticação para serem acessados
@@ -69,4 +68,5 @@ public class SecurityConfiguration {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
 }

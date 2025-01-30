@@ -1,6 +1,6 @@
 package com.api.estoque.api_crud.entity.ProdutoItemEntity;
 
-import com.api.estoque.api_crud.entity.Item.ItemEntity;
+import com.api.estoque.api_crud.entity.item.ItemEntity;
 import com.api.estoque.api_crud.entity.produto.ProdutoEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

@@ -1,16 +1,16 @@
 package com.api.estoque.api_crud.security.authentication;
 
-import com.api.estoque.api_crud.Repository.usuario.UsuarioRepository;
 import com.api.estoque.api_crud.entity.usuario.UsuarioEntity;
+import com.api.estoque.api_crud.repository.usuario.UsuarioRepository;
 import com.api.estoque.api_crud.security.config.SecurityConfiguration;
-import com.api.estoque.api_crud.security.jwt.JwtTokenService;
-import com.api.estoque.api_crud.security.usuarioDetails.UserDetailsImpl;
+import com.api.estoque.api_crud.security.userDetails.UserDetailsImpl;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -25,7 +25,7 @@ public class UserAuthenticationFilter extends OncePerRequestFilter {
     private JwtTokenService jwtTokenService; // Service que definimos anteriormente
 
     @Autowired
-    private UsuarioRepository usuarioRepository; // Repository que definimos anteriormente
+    private UsuarioRepository userRepository; // Repository que definimos anteriormente
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -34,11 +34,11 @@ public class UserAuthenticationFilter extends OncePerRequestFilter {
             String token = recoveryToken(request); // Recupera o token do cabeçalho Authorization da requisição
             if (token != null) {
                 String subject = jwtTokenService.getSubjectFromToken(token); // Obtém o assunto (neste caso, o nome de usuário) do token
-                UsuarioEntity usuario = usuarioRepository.findByEmail(subject).get(); // Busca o usuário pelo email (que é o assunto do token)
-                UserDetailsImpl userDetails = new UserDetailsImpl(usuario); // Cria um UserDetails com o usuário encontrado
+                UsuarioEntity user = userRepository.findByEmail(subject).get(); // Busca o usuário pelo email (que é o assunto do token)
+                UserDetailsImpl userDetails = new UserDetailsImpl(user); // Cria um UserDetails com o usuário encontrado
 
                 // Cria um objeto de autenticação do Spring Security
-                UsernamePasswordAuthenticationToken authentication =
+                Authentication authentication =
                         new UsernamePasswordAuthenticationToken(userDetails.getUsername(), null, userDetails.getAuthorities());
 
                 // Define o objeto de autenticação no contexto de segurança do Spring Security
@@ -64,5 +64,4 @@ public class UserAuthenticationFilter extends OncePerRequestFilter {
         String requestURI = request.getRequestURI();
         return !Arrays.asList(SecurityConfiguration.ENDPOINTS_WITH_AUTHENTICATION_NOT_REQUIRED).contains(requestURI);
     }
-
 }

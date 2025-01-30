@@ -1,6 +1,6 @@
 package com.api.estoque.api_crud.entity.Categoria;
 
-import com.api.estoque.api_crud.dto.Categoria.CategoriaResponseDTO;
+import com.api.estoque.api_crud.dto.categoria.CategoriaResponseDTO;
 import com.api.estoque.api_crud.entity.produto.ProdutoEntity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;

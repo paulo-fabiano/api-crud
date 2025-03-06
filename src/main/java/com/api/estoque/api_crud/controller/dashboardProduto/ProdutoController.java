@@ -1,4 +1,4 @@
-package com.api.estoque.api_crud.controller.DashboardProduto;
+package com.api.estoque.api_crud.controller.dashboardProduto;
 
 import com.api.estoque.api_crud.dto.categoria.CategoriaResponseDTO;
 import com.api.estoque.api_crud.dto.produto.ProdutoRequestDTO;

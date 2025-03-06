@@ -1,4 +1,4 @@
-package com.api.estoque.api_crud.controller.DashboardEstoque;
+package com.api.estoque.api_crud.controller.dashboardEstoque;
 
 import com.api.estoque.api_crud.dto.categoria.CategoriaRequestDTO;
 import com.api.estoque.api_crud.dto.categoria.CategoriaResponseDTO;
@@ -92,7 +92,5 @@ public class EstoqueController {
     public ResponseEntity<List<ItemResponseProdutoDTO>> listarItensParaProdutos() {
         return ResponseEntity.ok(itemService.buscarItensPPProd());
     }
-
-
 
 }
